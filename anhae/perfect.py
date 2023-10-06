@@ -3,7 +3,7 @@ import os
 
 # 미디 파일 지정
 WTF1 = converter.parse('Traffic light.mid')
-WTF2_path = 'Dragon Night.mid'
+WTF2_path = 'solme.mid'
 WTF2 = converter.parse(WTF2_path)
 
 
