@@ -1,5 +1,5 @@
 # 과학 과제 연구
-## Team name : Soundware
-
+## Pyojeol-checker
+두 음악의 멜로디를 분석한후 얼마나 같은지 표절률을 보여주는 프로그램
 
     
