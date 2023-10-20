@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파일 드래그 앤 드롭</title>
+    <style>
+        #dropzone {
+            width: 300px;
+            height: 200px;
+            border: 2px dashed #ccc;
+            text-align: center;
+            padding: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div id="dropzone">
+        <p>파일을 드래그 앤 드롭하세요.</p>
+        <p id="filename"></p>
+    </div>
+    <script>
+        const dropzone = document.getElementById('dropzone');
+        const filenameDisplay = document.getElementById('filename');
+
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.style.borderColor = '#2196F3';
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.style.borderColor = '#ccc';
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.style.borderColor = '#ccc';
+
+            const files = e.dataTransfer.files;
+
+            if (files.length > 0) {
+                const filename = files[0].name;
+                filenameDisplay.textContent = `파일 이름: ${filename}`;
+            }
+        });
+    </script>
+</body>
+</html>

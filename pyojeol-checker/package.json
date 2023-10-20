@@ -1,15 +1,16 @@
 {
   "name": "pyojeol-checker",
   "version": "1.0.0",
-  "description": "",
+  "description": "Hi",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "build": "electron-builder"
   },
-  "author": "",
+  "author": "fuckyou",
   "license": "ISC",
   "devDependencies": {
     "@electron-forge/cli": "^6.4.2",
@@ -18,7 +19,8 @@
     "@electron-forge/maker-squirrel": "^6.4.2",
     "@electron-forge/maker-zip": "^6.4.2",
     "@electron-forge/plugin-auto-unpack-natives": "^6.4.2",
-    "electron": "26.3.0"
+    "electron": "26.3.0",
+    "electron-builder": "^24.6.4"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0"
