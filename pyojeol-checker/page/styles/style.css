@@ -262,11 +262,12 @@ body {
   flex-shrink: 0;
 }
 .new-bAq .group-8-cNm .group-6-usf .section2-bJZ .music2-jZB .rectangle-4-CLH {
+
   width: 83rem;
   height: 33rem;
   position: absolute;
   left: 0;
-  top: 0;
+  top: -10px;
   border: dashed 0.8rem #a6a6a6;
   box-sizing: border-box;
   border-radius: 5.5rem;

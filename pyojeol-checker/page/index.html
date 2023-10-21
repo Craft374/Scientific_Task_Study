@@ -50,10 +50,13 @@
           <div class="group-2-JMP">
             <img class="vector-3Jy" src="./assets/vector-EyF.png"/>
             <div class="item--xB3">
-            클릭하여 파일을 선택하거나 드래그 & 드롭 하세요.
+              <input type="file" id="fileInput" style="display: none;">
+              <label for="fileInput" id="fileLabel" style="cursor: pointer;">
+                클릭하여 파일을 선택하거나 드래그 & 드롭 하세요.
+              </label>
             </div>
           </div>
-          <div class="rectangle-4-CLH">
+          <div class="rectangle-4-CLH" id="dropzone" style="border: 2px dashed #ccc; text-align: center; padding: 10px; margin: 10px 0;">
           </div>
         </div>
       </div>
@@ -67,4 +70,45 @@
     </div>
   </div>
 </div>
+<script>
+  const dropzone = document.getElementById('dropzone');
+  const fileLabel = document.getElementById('fileLabel');
+  const vectorImage = document.querySelector('.vector-3Jy');
+
+  dropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropzone.style.borderColor = '#2196F3';
+  });
+
+  dropzone.addEventListener('dragleave', () => {
+      dropzone.style.borderColor = '#ccc';
+  });
+
+  dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.style.borderColor = '#ccc';
+
+      const files = e.dataTransfer.files;
+
+      if (files.length > 0) {
+          const filename = files[0].name;
+          fileLabel.textContent = `선택한 파일: ${filename}`;
+
+          // 이미지를 변경
+          vectorImage.src = './assets/vector-71B.png';
+      }
+  });
+
+  // 파일 입력 필드의 변화도 감지
+  const fileInput = document.getElementById('fileInput');
+  fileInput.addEventListener('change', (e) => {
+      const filename = e.target.files[0].name;
+      fileLabel.textContent = `선택한 파일: ${filename}`;
+
+      // 이미지를 변경
+      vectorImage.src = './assets/vector-71B.png';
+  });
+</script>
+
 </body>
+</html>

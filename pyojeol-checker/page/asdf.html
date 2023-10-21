@@ -18,11 +18,11 @@
 <body>
     <div id="dropzone">
         <p>파일을 드래그 앤 드롭하세요.</p>
-        <p id="filename"></p>
+        <p id="filepath"></p> <!-- 변경된 아이디 -->
     </div>
     <script>
         const dropzone = document.getElementById('dropzone');
-        const filenameDisplay = document.getElementById('filename');
+        const filepathDisplay = document.getElementById('filepath'); // 변경된 아이디
 
         dropzone.addEventListener('dragover', (e) => {
             e.preventDefault();
@@ -40,8 +40,8 @@
             const files = e.dataTransfer.files;
 
             if (files.length > 0) {
-                const filename = files[0].name;
-                filenameDisplay.textContent = `파일 이름: ${filename}`;
+                const filepath = files[0].path; // 파일 경로 얻기
+                filepathDisplay.textContent = `파일 경로: ${filepath}`;
             }
         });
     </script>
