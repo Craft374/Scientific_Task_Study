@@ -1,114 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <link rel="icon" href="/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
   <title>pyojeol checker</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C500%2C700%2C800"/>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+CJK+KR%3A400"/>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR%3A400%2C500%2C700"/>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat%3A800"/>
   <link rel="stylesheet" href="./styles/style.css"/>
+  <script src="./controls.js" defer=""></script>
 </head>
 <body>
-<div class="new-bAq">
-  <div class="title-XKP">
-    <div class="auto-group-g3av-HJZ">
-      <div class="pyojeol-checker-b4M">pyojeol checker</div>
-      <div class="item-2023--6Wu">
-      2023 양일고 과제연구 이정우 조우영
+  <header>
+    <div id="title-box">
+      <div class="pyojeol-checker">pyojeol checker</div>
+      <div class="description">두 음악 속 멜로디의 표절률을 검사해줍니다.</div>
+    </div>
+    
+    <div id="ctrl-box">
+      <div id="minimize" class="ctrl-button">
+        <img src="./assets/minimize.svg">
+      </div>
+
+      <div id="close" class="ctrl-button">
+        <img src="./assets/close.svg">
       </div>
     </div>
-    <div class="item--Amf">두 음악 속 멜로디의 표절률을 검사해줍니다.</div>
+    
+  </header>
+  <div class="main">
+    <div class="section-box">
+      <div class="section">
+        <div class="section-top">
+          <p>음원 파일 #1</p>
+          <div class="section-top-line"></div>
+        </div>
+        <div class="file-zone" id="file-zone-1">
+          <img src="./assets/file.png">
+          <p class="disabled-text">클릭하여 음원 파일을 선택하거나<br>드래그&드롭 하세요.</p>
+          <p class="abled-text">선택된 파일: </p>
+          <div class="delete"><img src="./assets/close.svg"></div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-top">
+          <p>음원 파일 #2</p>
+          <div class="section-top-line"></div>
+        </div>
+        <div class="file-zone" id="file-zone-2">
+          <img src="./assets/file.png">
+          <p class="disabled-text">클릭하여 음원 파일을 선택하거나<br>드래그&드롭 하세요.</p>
+          <p class="abled-text">선택된 파일: </p>
+          <div class="delete"><img src="./assets/close.svg"></div>
+        </div>
+      </div>
+    </div>
+    <div id="synth-indicator" style="background-image: linear-gradient(var(--background), var(--background)), 
+    linear-gradient(to right, var(--white-gray) 0%,  var(--white-gray) 100%);"></div>
+    <div id="analyze" class="disabled">검사</div>
   </div>
-  <div class="group-8-cNm">
-    <div class="group-6-usf">
-      <div class="section1-TuB">
-        <div class="title1-1fo">
-          <div class="item-1-aD7">음원 파일 #1</div>
-          <img class="line-1-5vZ" src="REPLACE_IMAGE:50:135"/>
-        </div>
-        <div class="music1-F4M">
-          <img class="vector-XnZ" src="./assets/vector-J1f.png"/>
-          <div class="group-5-fds">
-            <div class="item-00-30-BMK">00:30</div>
-            <div class="musicwav-4R7">music.wav</div>
-          </div>
-          <div class="delete-Ayw">
-            <img class="x-6ch" src="./assets/x.png"/>
-          </div>
-        </div>
-      </div>
-      <div class="section2-bJZ">
-        <div class="title2-9qs">
-          <div class="item-2-u4M">음원 파일 #2</div>
-          <img class="line-2-bhs" src="REPLACE_IMAGE:50:136"/>
-        </div>
-        <div class="music2-jZB">
-          <div class="group-2-JMP">
-            <img class="vector-3Jy" src="./assets/vector-EyF.png"/>
-            <div class="item--xB3">
-              <input type="file" id="fileInput" style="display: none;">
-              <label for="fileInput" id="fileLabel" style="cursor: pointer;">
-                클릭하여 파일을 선택하거나 드래그 & 드롭 하세요.
-              </label>
-            </div>
-          </div>
-          <div class="rectangle-4-CLH" id="dropzone" style="border: 2px dashed #ccc; text-align: center; padding: 10px; margin: 10px 0;">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="auto-group-kn69-X7f">
-      <div class="fromtoline-dgV">
-        <img class="rectangle-6-P9s" src="./assets/rectangle-6.png"/>
-        <img class="line-3-jjX" src="REPLACE_IMAGE:50:138"/>
-      </div>
-      <div class="runbutton-hRT">검사</div>
-    </div>
-  </div>
-</div>
-<script>
-  const dropzone = document.getElementById('dropzone');
-  const fileLabel = document.getElementById('fileLabel');
-  const vectorImage = document.querySelector('.vector-3Jy');
-
-  dropzone.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      dropzone.style.borderColor = '#2196F3';
-  });
-
-  dropzone.addEventListener('dragleave', () => {
-      dropzone.style.borderColor = '#ccc';
-  });
-
-  dropzone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropzone.style.borderColor = '#ccc';
-
-      const files = e.dataTransfer.files;
-
-      if (files.length > 0) {
-          const filename = files[0].name;
-          fileLabel.textContent = `선택한 파일: ${filename}`;
-
-          // 이미지를 변경
-          vectorImage.src = './assets/vector-71B.png';
-      }
-  });
-
-  // 파일 입력 필드의 변화도 감지
-  const fileInput = document.getElementById('fileInput');
-  fileInput.addEventListener('change', (e) => {
-      const filename = e.target.files[0].name;
-      fileLabel.textContent = `선택한 파일: ${filename}`;
-
-      // 이미지를 변경
-      vectorImage.src = './assets/vector-71B.png';
-  });
-</script>
-
 </body>
 </html>
