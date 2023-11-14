@@ -23,6 +23,7 @@
     "electron-builder": "^24.6.4"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "melody2midi": "github:WooyeongCho/melody2midi"
   }
 }

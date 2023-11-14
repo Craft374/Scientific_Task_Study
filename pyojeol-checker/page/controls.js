@@ -1,3 +1,5 @@
+
+
 document.addEventListener('DOMContentLoaded', () => {
   try {
     const { ipcRenderer } = require('electron');
@@ -16,8 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const fileZone1 = document.getElementById("file-zone-1");
   const fileZone2 = document.getElementById("file-zone-2");
-  const grdBar = document.getElementById("synth-indicator")
-  const analyze = document.getElementById("analyze")
+  const grdBar = document.getElementById("synth-indicator");
+  const analyze = document.getElementById("analyze");
+
+  let filePath1 = '';
+  let filePath2 = '';
 
   fileZone1.addEventListener("click", () => {
     openFileExplorer(fileZone1);
@@ -41,6 +46,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   fileZone2.addEventListener("drop", (event) => {
     handleDrop(event, fileZone2);
+  });
+
+  analyze.addEventListener("click", (event) => {
+    if(analyze.classList.contains("abled")) {
+      try {
+        const { ipcRenderer } = require('electron');
+        ipcRenderer.send('start-analyze', filePath1, filePath2);
+        console.log("분석 시작 신호 전달 완료");
+        analyze.classList.remove("abled");
+        analyze.innerText = "분석 중.."
+      } catch (error) {
+        console.log("not electron");
+      }
+    }
   });
 
   const deleteButton1 = fileZone1.querySelector(".delete");
@@ -70,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const selectedFile = event.target.files[0];
       if (selectedFile) {
         updateFileZone(fileZone, selectedFile.name);
+        updateFilePath(fileZone, selectedFile);
       }
     });
   }
@@ -78,6 +98,23 @@ document.addEventListener('DOMContentLoaded', () => {
     fileZone.classList.add("abled");
     updateSelectedFileText(fileZone, fileName);
     updateGrdBar();
+  }
+
+  function updateFilePath(fileZone, fileObject) {
+    switch (fileZone.id) {
+      case "file-zone-1":
+        filePath1 = fileObject.path;
+        break;
+      case "file-zone-2":
+        filePath2 = fileObject.path;
+        break;
+      default:
+        break;
+    }
+
+    console.log(fileObject.path);
+    console.log(filePath1);
+    console.log(filePath2);
   }
 
   function clearFileZone(fileZone) {
@@ -103,8 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function getGrdCode(is1Abled, is2Abled) {
       let a;
       let b;
-      if(is1Abled) {a = "var(--primary-color)"} else {a = "var(--white-gray)"}
-      if(is2Abled) {b = "var(--primary-color)"} else {b = "var(--white-gray)"}
+      if(is1Abled) {a = "var(--primary-color)"} else {a = "var(--light-gray)"}
+      if(is2Abled) {b = "var(--primary-color)"} else {b = "var(--light-gray)"}
       return `background-image: linear-gradient(var(--background), var(--background)), linear-gradient(to right, ${a} 0%,  ${b} 100%);`
     }
   }
@@ -125,6 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const selectedFile = files[0];
       if(selectedFile.type.startsWith("audio/")) {
         updateFileZone(fileZone, selectedFile.name);
+        updateFilePath(fileZone, selectedFile);
       } else {
         showError('오디오 파일이 아닙니다.');
       }
