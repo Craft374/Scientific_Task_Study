@@ -11,6 +11,38 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('close').addEventListener('click', () => {
       ipcRenderer.send('close');
     });
+
+
+    // 메인 프로세스로부터 신호 받기
+    ipcRenderer.on('analysis-complete', (event, data) => {
+      const floatValue = parseFloat(data);
+      const roundedValue = floatValue.toFixed(2);
+
+      let result;
+      if (roundedValue >= 0 && roundedValue < 5) {
+        result = '낮음';
+      } else if (roundedValue >= 5 && roundedValue < 10) {
+        result = '보통';
+      } else if (roundedValue >= 10 && roundedValue < 15) {
+        result = '높음';
+      } else if (roundedValue >= 15 && roundedValue < 20) {
+        result = '매우 높음';
+      } else {
+        result = '표절 가능성 있음';
+      }
+
+      resultIndicator.innerText = "[검사 결과] 유사도 " + roundedValue + "% [표절 가능성: "  + result + "]";
+      resultIndicator.classList.add("abled");
+      analyze.innerText = "분석"
+      analyze.classList.add("abled");
+    })
+
+    ipcRenderer.on('analysis-error', (event, data) => {
+      resultIndicator.innerText = "실행에 오류가 발생하였습니다. 재시작해주세요.";
+      resultIndicator.classList.add("abled");
+      analyze.innerText = "분석"
+      analyze.classList.add("abled");
+    })
   } catch (error) {
     console.log('not electron');
   }
@@ -20,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const fileZone2 = document.getElementById("file-zone-2");
   const grdBar = document.getElementById("synth-indicator");
   const analyze = document.getElementById("analyze");
+  const resultIndicator = document.getElementById("result-indicator");
 
   let filePath1 = '';
   let filePath2 = '';
@@ -55,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ipcRenderer.send('start-analyze', filePath1, filePath2);
         console.log("분석 시작 신호 전달 완료");
         analyze.classList.remove("abled");
+        resultIndicator.classList.remove("abled");
         analyze.innerText = "분석 중.."
       } catch (error) {
         console.log("not electron");

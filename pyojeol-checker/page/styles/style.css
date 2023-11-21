@@ -177,6 +177,19 @@ header {
   background-clip: content-box, border-box;
 }
 
+#result-indicator {
+  margin-top: 1rem;
+  text-align: center; /* 수평 가운데 정렬 */
+  font-size: 1.2rem;
+  color: var(--white-gray);
+  font-weight: 400;
+  display: none;
+}
+
+#result-indicator.abled {
+  display: block;
+}
+
 #analyze {
   width: fit-content; /* 너비를 원하는 크기로 조절하세요 */
   height: 4rem; /* 높이를 원하는 크기로 조절하세요 */
@@ -270,6 +283,13 @@ header {
   border-radius: 0.5rem;
   display:block;
   animation: fadeOut 3s;
+}
+
+#by-us {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  color: #5e5e5e;
 }
 
 @keyframes fadeOut {
