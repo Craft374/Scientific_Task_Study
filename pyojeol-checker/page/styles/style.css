@@ -178,7 +178,7 @@ header {
 }
 
 #analyze {
-  width: 8rem; /* 너비를 원하는 크기로 조절하세요 */
+  width: fit-content; /* 너비를 원하는 크기로 조절하세요 */
   height: 4rem; /* 높이를 원하는 크기로 조절하세요 */
   line-height: 40px; /* 높이와 같게 설정하여 수직 가운데 정렬 */
   text-align: center; /* 수평 가운데 정렬 */
@@ -195,10 +195,16 @@ header {
   font-size: 1.5rem;
   font-weight: 700;
   transition: all 0.5s;
+  box-shadow: none;
+  padding: 0 2rem 0 2rem;
 }
 
 #analyze.abled {
   filter: grayscale(0%);
+}
+
+#analyze.abled:hover {
+  box-shadow: 0px 5px 15px 0px #4caf5070;
 }
 
 .file-zone.abled {
