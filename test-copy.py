@@ -1,13 +1,30 @@
 from mido import MidiFile
 from music21 import converter, pitch, note
 import os
-
+import sys
 # 미디 파일 지정
-x = input("1번 미디파일 이름")
-y = input("2번 미디파일 이름")
-WTF1 = converter.parse(x+'.mid')
-WTF2_path = y+'.mid'
-WTF2 = converter.parse(WTF2_path)
+
+def main():
+    # 명령행 인수가 있는지 확인
+    if len(sys.argv) > 1:
+        pass
+    else:
+        print("명령행 인수가 제공되지 않았습니다.")
+        quit()
+
+if __name__ == "__main__":
+    main()
+
+print(sys.argv[1])
+print(sys.argv[2])
+print(sys.argv[3])
+print(sys.argv[4])
+
+# x = input("1번 미디파일 이름")
+# y = input("2번 미디파일 이름")
+WTF1 = converter.parse(sys.argv[1])
+# WTF2_path = y+'.mid'
+WTF2 = converter.parse(sys.argv[2])
 
 # 왓더뻑1 분석
 WTF1_key = WTF1.analyze('key')
@@ -18,21 +35,21 @@ WTF2_key = WTF2.analyze('key')
 print(WTF2_key.tonic)
 
 # 왓더뻑 1의 키를 왓더뻑2에 적용
-interval = pitch.Pitch(WTF1_key.tonic).ps - pitch.Pitch(WTF2_key.tonic).ps
+interval = pitch.Pitch(sys.argv[3]).ps - pitch.Pitch(sys.argv[4]).ps
 
 for n in WTF2.recurse().getElementsByClass(note.Note):
     n.pitch.ps += interval  # 각 노트를 해당 간격만큼 위로 전치한다는데 난 모르겠음
 
 #변환된 왓더뻑2 출력
-base_filename_without_extention = os.path.splitext(WTF2_path)[0]
-filename_to_save = "{}_{}.mid".format(WTF1_key.tonic.name, base_filename_without_extention)
+base_filename_without_extention = os.path.splitext(sys.argv[2])[0]
+filename_to_save = "{}_{}.mid".format(sys.argv[1], base_filename_without_extention)
 WTF2.write('midi', fp=filename_to_save)  # 전치된 곡을 새로운 이름으로 저장함ㅋ
 
 out = converter.parse(filename_to_save)
 out_key = out.analyze('key')
 print(out_key)
 
-midi_file = x +'.mid'  # 여기에 MIDI 파일 경로를 입력하세요.
+midi_file = sys.argv[1]  # 여기에 MIDI 파일 경로를 입력하세요.
 
 def jaccard_similarity(list1, list2):
     set1 = set(list1)
