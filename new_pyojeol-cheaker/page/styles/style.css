@@ -8,21 +8,23 @@
 }
 
 * {
+  box-sizing: border-box;
   font-family: Noto Sans KR, 'Source Sans Pro';
 }
 
 html {
-  width: 960px;
+  width: 100%;
   height: 100%;
   font-size: 16px;
   -webkit-user-select: none;
+  overflow: hidden;
 }
 
 body {
-  
   width: 100%;
   height: 100%;
   margin: 0;
+  overflow: hidden;
 }
 
 .main {
@@ -36,9 +38,11 @@ body {
 
 header {
   top: 0;
+  left: 0;
+  right: 0;
   display: flex;
   position: fixed;
-  width:100%;
+  width: auto;
   box-sizing: border-box;
   background-color: rgb(29, 29, 29, 80%);
   padding: 0.5rem 0.5rem 0.5rem 0.5rem;
