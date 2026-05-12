@@ -1,0 +1,19 @@
+{
+  "name": "pyojeol-checker",
+  "version": "1.0.0",
+  "description": "Hi",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "author": "fuckyou",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^42.0.1"
+  },
+  "dependencies": {
+    "melody2midi": "github:WooyeongCho/melody2midi",
+    "midi-file": "^1.2.4"
+  }
+}

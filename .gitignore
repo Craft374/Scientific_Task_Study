@@ -1,5 +1,35 @@
-﻿pyojeol-checker/out
-pyojeol-checker/node_modules
-pyojeol-checker/dist/win-unpacked
-pyojeol-checker/dist/pyojeol-checker Setup 1.0.0.exe
-pyojeol-checker/dist/pyojeol-checker Setup 1.0.0.exe.blockmap
+.DS_Store
+.venv/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Keep archived work visible on purpose.
+!old/
+
+# Active app workspace
+new_pyojeol-cheaker/node_modules/
+new_pyojeol-cheaker/out/
+new_pyojeol-cheaker/dist/
+new_pyojeol-cheaker/*.log
+
+# Temporary MIDI files generated during analysis runs
+new_pyojeol-cheaker/*.mid
+new_pyojeol-cheaker/*.midi
+new_pyojeol-cheaker/*.mid_*.mid
+
+# Legacy location kept for safety in case old tooling recreates it
+pyojeol-checker/node_modules/
+pyojeol-checker/out/
+pyojeol-checker/dist/
+
+# Keep archived source files, but skip archived build output
+old/pyojeol-cheaker-legacy/out/
+old/pyojeol-cheaker-legacy/dist/
+old/pyojeol-cheaker-legacy/midi/tmpA.mid
+old/pyojeol-cheaker-legacy/midi/tmpB.mid
+old/pyojeol-cheaker-legacy/midi/tmpA.mid_tmpB.mid
+old/pyojeol-cheaker-legacy/midi/wqweajrsnyA.mid_wqweajrsnyB.mid
+old/pyojeol-cheaker-legacy/midi/xwf6zimpteA.mid_xwf6zimpteB.mid
+test.md

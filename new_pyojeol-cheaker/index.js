@@ -1,8 +1,9 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const melody2midi = require('melody2midi');
-const { spawn } = require('child_process');
 const fs = require('fs');
+const os = require('os');
+const { analyzeMidi } = require('./test-copy');
 
 const createWindow = () => {
     const win = new BrowserWindow({
@@ -34,7 +35,7 @@ const createWindow = () => {
     });
 
     ipcMain.on('start-analyze', (event, filePath1, filePath2) => {
-      const randomTempName = Math.random().toString(36).substring(2, 12);
+      const randomTempName = path.join(os.tmpdir(), Math.random().toString(36).substring(2, 12));
 
       const promise1 = new Promise((resolve, reject) => {
         melody2midi.extractMIDI(filePath1)
@@ -86,41 +87,36 @@ const createWindow = () => {
     
       Promise.all([promise1, promise2, promise3, promise4])
         .then(([midiFilePath1, midiFilePath2, key1, key2]) => {
-          // 파이썬 코드 실행
-          console.log(midiFilePath1, midiFilePath2, key1, key2)
-          const pythonProcess = spawn('python', ['test-copy.py', midiFilePath1, midiFilePath2, key1, key2]);
-    
-          pythonProcess.stdout.on('data', (data) => {
-            
-            console.log(`stdout: ${data}`);
-            win.webContents.send('analysis-complete', data.toString());
-          });
-    
-          pythonProcess.stderr.on('data', (data) => {
-            console.error(`stderr: ${data}`);
-            win.webContents.send('analysis-error', data.toString());
-          });
-    
-          pythonProcess.on('close', (code) => {
-            console.log(`child process exited with code ${code}`);
-            fs.unlink(midiFilePath1, (err) => {
-              if (err) {
-                console.error(err);
-                return;
-              }
-              
-              console.log('첫번째 파일 삭제');
-            });
+          console.log(midiFilePath1, midiFilePath2, key1, key2);
 
-            fs.unlink(midiFilePath2, (err) => {
-              if (err) {
-                console.error(err);
-                return;
-              }
-              
-              console.log('두번째 파일 삭제');
+          let filename_to_save = null;
+
+          try {
+            const { result, filename_to_save: savedFilePath } = analyzeMidi(
+              midiFilePath1,
+              midiFilePath2,
+              key1,
+              key2,
+            );
+
+            filename_to_save = savedFilePath;
+            console.log(`stdout: ${result}`);
+            win.webContents.send('analysis-complete', result.toString());
+          } catch (error) {
+            console.error('stderr:', error);
+            win.webContents.send('analysis-error', error.toString());
+          } finally {
+            [midiFilePath1, midiFilePath2, filename_to_save].filter(Boolean).forEach((filePath) => {
+              fs.unlink(filePath, (err) => {
+                if (err && err.code !== 'ENOENT') {
+                  console.error(err);
+                  return;
+                }
+
+                console.log(`${filePath} 삭제`);
+              });
             });
-          });
+          }
         })
         .catch((error) => {
           console.error("error: ", error);

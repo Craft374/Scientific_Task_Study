@@ -83,6 +83,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   analyze.addEventListener("click", (event) => {
     if(analyze.classList.contains("abled")) {
+      if(!filePath1 || !filePath2) {
+        showError('파일 경로를 읽지 못했습니다. 파일을 다시 선택해주세요.');
+        return;
+      }
+
       try {
         const { ipcRenderer } = require('electron');
         ipcRenderer.send('start-analyze', filePath1, filePath2);
@@ -135,18 +140,25 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateFilePath(fileZone, fileObject) {
+    const resolvedPath = getFilePath(fileObject);
+
+    if(!resolvedPath) {
+      showError('파일 경로를 읽지 못했습니다. 파일을 다시 선택해주세요.');
+      return;
+    }
+
     switch (fileZone.id) {
       case "file-zone-1":
-        filePath1 = fileObject.path;
+        filePath1 = resolvedPath;
         break;
       case "file-zone-2":
-        filePath2 = fileObject.path;
+        filePath2 = resolvedPath;
         break;
       default:
         break;
     }
 
-    console.log(fileObject.path);
+    console.log(resolvedPath);
     console.log(filePath1);
     console.log(filePath2);
   }
@@ -154,7 +166,29 @@ document.addEventListener('DOMContentLoaded', () => {
   function clearFileZone(fileZone) {
     fileZone.classList.remove("abled");
     updateSelectedFileText(fileZone, "선택된 파일: ");
+
+    switch (fileZone.id) {
+      case "file-zone-1":
+        filePath1 = '';
+        break;
+      case "file-zone-2":
+        filePath2 = '';
+        break;
+      default:
+        break;
+    }
+
     updateGrdBar();
+  }
+
+  function getFilePath(fileObject) {
+    try {
+      const { webUtils } = require('electron');
+      return webUtils.getPathForFile(fileObject);
+    } catch (error) {
+      console.log('webUtils unavailable, falling back to File.path');
+      return fileObject.path || '';
+    }
   }
 
   function updateSelectedFileText(fileZone, fileName) {
